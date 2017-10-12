@@ -14,13 +14,20 @@ source:
     - https://cran.r-project.org/src/contrib/Archive/manipulate/manipulate_{{ version }}.tar.gz
   sha256: 7e7e829252c3b3c1f768bb76a5d952f0e98f95c843b5f58da325deeb1ab693ce
 
-build:
-  number: 0
-  skip: true  # [win32]
 
+  # patches:
+   # List any patch files here
+   # - fix.patch
+
+build:
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
+
 
 requirements:
   build:
@@ -31,8 +38,15 @@ requirements:
 
 test:
   commands:
-    - $R -e "library('manipulate')"  # [not win]
+    # You can put additional test commands to be run here.
+    - $R -e "library('manipulate')"           # [not win]
     - "\"%R%\" -e \"library('manipulate')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
 
 about:
   home: https://CRAN.R-project.org/package=manipulate
@@ -48,3 +62,28 @@ extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: manipulate
+# Type: Package
+# Title: Interactive Plots for RStudio
+# Version: 1.0.1
+# Date: 2014-12-23
+# Authors@R: c( person("JJ", "Allaire", role = c("aut", "cre"), comment = "R interface", email = "jj@rstudio.com"), person(family = "RStudio", role = "cph") )
+# Maintainer: JJ Allaire <jj@rstudio.com>
+# Description: Interactive plotting functions for use within RStudio. The manipulate function accepts a plotting expression and a set of controls (e.g. slider, picker, checkbox, or button) which are used to dynamically change values within the expression. When a value is changed using its corresponding control the expression is automatically re-executed and the plot is redrawn.
+# Depends: R (>= 2.11.1)
+# SystemRequirements: RStudio - http://www.rstudio.com/products/rstudio/
+# License: GPL-2
+# LazyLoad: yes
+# Packaged: 2014-12-23 18:00:41 UTC; jjallaire
+# Author: JJ Allaire [aut, cre] (R interface), RStudio [cph]
+# NeedsCompilation: no
+# Repository: CRAN
+# Date/Publication: 2014-12-24 01:18:44
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
